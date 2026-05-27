@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大宮東中 80周年スカイランタンフロー図（A4縦対応）</title>
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 印刷時のA4縦レイアウト用調整 */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+            }
+            /* 印刷時に全てのカードを100%表示 */
+            .item-card {
+                opacity: 1 !important;
+                border-width: 1px !important;
+            }
+        }
+        /* 画面上でのハイライト切り替えアニメーション */
+        .item-card {
+            transition: all 0.2s ease;
+        }
+        .dimmed {
+            opacity: 0.15;
+            filter: grayscale(80%);
+        }
+        .highlighted-lantern {
+            border: 3px solid #3b82f6 !important;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+            transform: scale(1.01);
+        }
+        .highlighted-paperweight {
+            border: 3px solid #f59e0b !important;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+            transform: scale(1.01);
+        }
+        .highlighted-bottle-weight {
+            border: 3px solid #10b981 !important;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+            transform: scale(1.01);
+        }
+        .highlighted-cylinder {
+            border: 3px solid #8b5cf6 !important;
+            box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+            transform: scale(1.01);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 min-h-screen py-4 px-4">
+
+    <!-- 画面コントロール用（印刷時には非表示） -->
+    <div class="max-w-4xl mx-auto mb-4 p-4 bg-white rounded shadow no-print">
+        <h2 class="text-sm font-bold text-gray-700 mb-2">▼ クリックして強調したい流れを切り替え（モノの動きを追跡できます）</h2>
+        <div class="flex flex-wrap gap-1.5">
+            <button onclick="filterFlow('all')" id="btn-all" class="px-3 py-1.5 text-xs font-semibold rounded bg-gray-800 text-white shadow hover:bg-gray-700 transition">
+                全体図を表示
+            </button>
+            <button onclick="filterFlow('lantern')" id="btn-lantern" class="px-3 py-1.5 text-xs font-semibold rounded bg-blue-100 text-blue-800 border border-blue-300 hover:bg-blue-200 transition">
+                🎈 1. ランタン本体の流れ
+            </button>
+            <button onclick="filterFlow('paperweight')" id="btn-paperweight" class="px-3 py-1.5 text-xs font-semibold rounded bg-amber-100 text-amber-800 border border-amber-300 hover:bg-amber-200 transition">
+                ⚓ 2. ペーパーウエイト（手持ち紐）の流れ
+            </button>
+            <button onclick="filterFlow('bottle-weight')" id="btn-bottle-weight" class="px-3 py-1.5 text-xs font-semibold rounded bg-green-100 text-green-800 border border-green-300 hover:bg-green-200 transition">
+                🍾 3. ペットボトル重り（協賛固定用）の流れ
+            </button>
+            <button onclick="filterFlow('cylinder')" id="btn-cylinder" class="px-3 py-1.5 text-xs font-semibold rounded bg-purple-100 text-purple-800 border border-purple-300 hover:bg-purple-200 transition">
+                🧪 4. ヘリウムガスボンベの流れ
+            </button>
+        </div>
+        <p class="text-[10px] text-gray-500 mt-2">※印刷（Ctrl+P / Cmd+P）すると自動的にボタン類が消え、A4縦1枚の全体フロー図として綺麗に印刷されます。</p>
+    </div>
+
+    <!-- メインA4縦コンテナ -->
+    <div class="print-container max-w-4xl mx-auto bg-white p-5 rounded border border-gray-300" style="min-height: 1120px;">
+        
+        <!-- ヘッダー -->
+        <div class="border-b border-gray-800 pb-2 mb-3 text-center">
+            <h1 class="text-lg font-extrabold text-gray-900 tracking-wider">大宮東中学校 創立80周年記念スカイランタン・フェスティバル</h1>
+            <p class="text-[11px] text-gray-600 mt-0.5">【業務フロー図】 納品から当日打上げ・翌日撤収まで（学校・生徒・実行委員会の役割連携）</p>
+        </div>
+
+        <!-- 凡例 (4つの主役アイテム) -->
+        <div class="grid grid-cols-4 gap-2 mb-3 text-[10px] p-2 bg-gray-50 rounded border border-gray-200">
+            <div class="flex items-start gap-1">
+                <span class="w-2.5 h-2.5 mt-0.5 rounded bg-blue-100 border border-blue-400 inline-block shrink-0"></span>
+                <div>
+                    <span class="font-bold text-blue-900 block">🎈 1. ランタン本体</span>
+                    <span class="text-gray-600">配布 ➔ 記入 ➔ 回収 ➔ ガス充填・ウエイト結束 ➔ 教室保管 ➔ 受取 ➔ 打上げ</span>
+                </div>
+            </div>
+            <div class="flex items-start gap-1">
+                <span class="w-2.5 h-2.5 mt-0.5 rounded bg-amber-100 border border-amber-400 inline-block shrink-0"></span>
+                <div>
+                    <span class="font-bold text-amber-900 block">⚓ 2. ペーパーウエイト</span>
+                    <span class="text-gray-600"><strong class="text-red-700">【全ランタン共通】</strong>紐付き手持ち厚紙。充填時に本体へ結束、打上げ時に手に持つ</span>
+                </div>
+            </div>
+            <div class="flex items-start gap-1">
+                <span class="w-2.5 h-2.5 mt-0.5 rounded bg-green-100 border border-green-400 inline-block shrink-0"></span>
+                <div>
+                    <span class="font-bold text-green-900 block">🍾 3. ペットボトル重り</span>
+                    <span class="text-gray-600"><strong class="text-green-700">【協賛飾付け用】</strong>空ボトル回収 ➔ 水入れ ➔ 協賛ランタンを校庭に固定・展示用</span>
+                </div>
+            </div>
+            <div class="flex items-start gap-1">
+                <span class="w-2.5 h-2.5 mt-0.5 rounded bg-purple-100 border border-purple-400 inline-block shrink-0"></span>
+                <div>
+                    <span class="font-bold text-purple-900 block">🧪 4. ガスボンベ(大)</span>
+                    <span class="text-gray-600">平日に納品 ➔ 放送室スタジオ保管 ➔ 当日スタジオ充填 ➔ 使用後梱包・返却</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- スイムレーンヘッダー（縦軸レーン名） -->
+        <div class="grid grid-cols-12 gap-2 text-center font-bold text-xs bg-gray-800 text-white p-1.5 rounded mb-2">
+            <div class="col-span-2">フェーズ・時期</div>
+            <div class="col-span-3 border-l border-gray-600">学校</div>
+            <div class="col-span-3 border-l border-gray-600">生徒（生徒会・美術部等）</div>
+            <div class="col-span-4 border-l border-gray-600">実行委員会（よくし隊）</div>
+        </div>
+
+        <!-- グリッドフロー開始 -->
+        <div class="space-y-2 text-[10.5px]">
+
+            <!-- FEASE 1 -->
+            <div class="grid grid-cols-12 gap-2 border-b border-gray-200 pb-2">
+                <div class="col-span-2 flex flex-col justify-center items-center bg-gray-100 rounded p-1 text-center">
+                    <span class="font-bold text-gray-700">フェーズ1</span>
+                    <span class="text-[9px] text-gray-500">事前準備</span>
+                    <span class="text-[9px] text-blue-600 font-semibold">(6月下〜夏休み)</span>
+                </div>
+                <!-- 学校 -->
+                <div class="col-span-3 bg-gray-50 p-1.5 rounded border border-gray-200 flex flex-col justify-center space-y-1">
+                    <div>・美術部のランタン試作指導</div>
+                    <div>・7/13生徒朝礼(体育館)</div>
+                    <div>・7/17終業式学活</div>
+                </div>
+                <!-- 生徒 -->
+                <div class="col-span-3 item-card tag-lantern tag-bottle-weight bg-gradient-to-b from-blue-50/70 to-green-50/70 p-1.5 rounded border border-blue-200 flex flex-col justify-between space-y-1">
+                    <div>・7/13生徒会: 朝礼でのPR・ランタン作成説明</div>
+                    <div class="mt-0.5 font-bold text-blue-700">・7/17終業式学活🎈ランタン全員配布・持ち帰り(ガス未充填)<br>
+                        <span class="text-[8.5px] font-normal text-gray-600">(夏休み中に夢・願いを記入)</span><br>
+                        <strong class="text-red-700 font-extrabold">ランタン底面にクラス・組・出席番号を記入</strong>
+                    </div>
+                    <div class="mt-0.5 font-bold text-blue-700">・当日用引換券を配布<br>
+                        <strong class="text-red-700 font-extrabold">クラス・組・出席番号を記入し、無くさず当日持ってくるように</strong>
+                    </div>
+                    <div class="mt-0.5 font-bold text-green-700">🍾 協賛固定用の空ボトル持参呼掛け<br><span class="text-[8.5px] font-normal text-gray-600">(2L空ペットボトル、キャップ付)</span></div>
+                </div>
+                <!-- 実行委員会 -->
+                <div class="col-span-4 space-y-1">
+                    <div class="bg-gray-50 p-1.5 rounded border border-gray-200 flex flex-col justify-center">
+                        <div>・7/13生徒向け説明資料の作成・提供</div>
+                        <div>・協賛金集め / 広告データ入稿受付</div>
+                        <div><strong class="text-red-700 font-extrabold">・ランタン協会へ正式発注6月中旬（700個）</strong></div>
+                        <div><strong class="text-red-700 font-extrabold">・記念タオル正式発注6月中旬（1000枚）</strong></div>
+                        <div>・来賓へのご案内手紙6月中（式典や祝賀会とセットで）</div>
+                        <div>・当日プログラム&広告作成7月中→印刷8月</div>
+                        <div><strong class="text-red-700 font-extrabold">・ボンベ正式発注7月下旬（7,000Lx5本）</strong></div>
+                        <div>・協賛用ランタンに貼る社名を作成トレーシングペーパーに印刷8月</div>
+                        <div>・イベント保険加入手続き</div>
+                        <div>・イベント告知看板(告知サイトQR付き)依頼6月早め</div>
+                        <div>・イベント告知サイト作成6月中(イベント詳細や延期・代替情報など)</div>
+                        <div>・イベント告知チラシ(告知サイトQR付き)配布8月～</div>
+                        <div>・近隣住民への騒音お手紙配布(堀1に回覧？)8月～</div>
+                        <div>・各クラス保管段ボール&体育館靴入れビニール袋手配8月～</div>
+                    </div>
+                    <div class="item-card tag-lantern tag-paperweight bg-gradient-to-r from-blue-50/70 to-amber-50/70 p-1.5 rounded border border-blue-200">
+                        <span class="font-bold text-blue-700">🎈ランタン ＆ ⚓ペーパーウエイト等 納品</span><br>
+                        ・平日(1週間ほど前)に未充填ランタン・ペーパーウエイト等のセットを「放送室スタジオ」に搬入・クラスごと仕訳保管
+                    </div>
+                </div>
+            </div>
+
+            <!-- FEASE 2 -->
+            <div class="grid grid-cols-12 gap-2 border-b border-gray-200 pb-2">
+                <div class="col-span-2 flex flex-col justify-center items-center bg-gray-100 rounded p-1 text-center">
+                    <span class="font-bold text-gray-700">フェーズ2</span>
+                    <span class="text-[9px] text-gray-500">夏休み明け直前</span>
+                    <span class="text-[9px] text-blue-600 font-semibold">(8/26〜8/28)</span>
+                </div>
+                <!-- 学校 -->
+                <div class="col-span-3 item-card tag-lantern tag-bottle-weight bg-gradient-to-b from-blue-50/70 to-green-50/70 p-1.5 rounded border border-blue-200 flex flex-col justify-center space-y-1">
+                    <div class="font-bold text-blue-700">・8/26始業式🎈記入済みランタン回収</div>
+                    <div class="font-bold text-green-700">🍾協賛固定用の空ボトル回収</div>
+                    <div class="text-[8.5px] text-gray-600">・始業式の朝、各クラスの専用段ボール箱にまとめて回収し一時保管</div>
+                </div>
+                <!-- 生徒 -->
+                <div class="col-span-3 item-card tag-lantern tag-bottle-weight bg-gradient-to-b from-blue-50/70 to-green-50/70 p-1.5 rounded border border-blue-200 flex flex-col justify-center space-y-1">
+                    <div class="font-bold text-blue-700">・8/26始業式🎈記入済みランタンの提出</div>
+                    <div class="font-bold text-green-700">🍾空ペットボトルの提出</div>
+                    <div class="text-[8.5px] text-gray-600">・始業式の朝、各クラスで用意された専用の回収用段ボール箱に一緒に入れる</div>
+                </div>
+                <!-- 実行委員会 -->
+                <div class="col-span-4 space-y-1">
+                    <div class="item-card tag-lantern tag-bottle-weight bg-gradient-to-r from-blue-50/70 to-green-50/70 p-1.5 rounded border border-blue-200 flex flex-col justify-center">
+                        ・各クラス用のランタン回収段ボール箱（学年・クラス・番号記載済）を事前に用意し学校へ届ける（ペットボトル用も）
+                    </div>
+                    <div class="item-card tag-cylinder bg-purple-50/70 p-1.5 rounded border border-purple-200">
+                        <span class="font-bold text-purple-700">🧪ボンベ納品</span><br>
+                        ・平日(1週間ほど前)にヘリウムボンベ(大5本)を放送室スタジオに搬入・保管
+                    </div>
+                    <div class="item-card tag-bottle-weight bg-green-50/70 p-1.5 rounded border border-green-200">
+                        <span class="font-bold text-green-700">🍾空ボトルの仕分け・保管</span><br>
+                        ・回収された空ペットボトル（100〜120本）を仕分け、放送室スタジオに一時保管
+                    </div>
+                </div>
+            </div>
+
+            <!-- FEASE 3 -->
+            <div class="grid grid-cols-12 gap-2 border-b border-gray-200 pb-2">
+                <div class="col-span-2 flex flex-col justify-center items-center bg-gray-100 rounded p-1 text-center">
+                    <span class="font-bold text-gray-700">フェーズ3</span>
+                    <span class="text-[9px] text-gray-500">当日午前・準備</span>
+                    <span class="text-[9px] text-blue-600 font-semibold">(8/29 7:00〜15:30)</span>
+                </div>
+                <!-- 学校 -->
+                <div class="col-span-3 bg-gray-50 p-1.5 rounded border border-gray-200 flex flex-col justify-center space-y-1">
+                    <div>・放送室スタジオの鍵開け</div>
+                    <div class="font-bold text-gray-700">・ボランティア運搬に伴う各教室の施錠管理のご協力</div>
+                    <div>・音響/照明貸出調整サポート</div>
+                </div>
+                <!-- 生徒 -->
+                <div class="col-span-3 bg-gray-50 p-1.5 rounded border border-gray-200 flex flex-col justify-center text-center text-gray-500 italic">
+                    <div>【終日校内部活禁止】</div>
+                    <div>一般生徒は自宅待機</div>
+                    <div class="text-[8.5px]">(アトラクション有志・生徒会は午後リハ)</div>
+                    <div class="mt-1 font-bold text-red-600 bg-red-50 py-0.5 rounded text-[9px]">※準備作業は生徒ノータッチ</div>
+                </div>
+                <!-- 実行委員会 -->
+                <div class="col-span-4 space-y-1">
+                    <div class="item-card tag-bottle-weight bg-green-50/70 p-1.5 rounded border border-green-200">
+                        <span class="font-bold text-green-700">🍾協賛固定用の「ペットボトル重り」作成</span><br>
+                        ・集めたペットボトルを近くの水道へ運び、水を満水にして「協賛ランタン固定用の重り」を完成させる（校庭の飾付け位置に配備）。
+                    </div>
+                    <div class="item-card tag-cylinder tag-lantern tag-paperweight bg-gradient-to-r from-purple-50/70 via-blue-50/70 to-amber-50/70 p-1.5 rounded border border-blue-300">
+                        <span class="font-bold text-blue-800">🎈ガス充填 ➔ ⚓紐付きペーパーウエイト結束</span><br>
+                        ・ボランティアが各教室のランタンを放送室スタジオへ回収。<br>
+                        ・ランタン本体にヘリウムガスを充填（破裂注意・9.5割）。<br>
+                        ・LEDを貼る際、<strong class="text-red-700 font-extrabold">同時にランタン本体と「紐付きペーパーウエイト」を結びつける！</strong>（全員分作成。生徒が当日手に持つ用）<br>
+                        ・協賛用ランタンには社名入りトレーシングペーパーを貼る<strong class="text-red-700 font-extrabold">各社口数注意</strong>
+                    </div>
+                    <div class="item-card tag-lantern tag-paperweight bg-gradient-to-r from-blue-50/70 to-amber-50/70 p-1.5 rounded border border-blue-200">
+                        <span class="font-bold text-blue-700">🎈各クラスのウエイト付きランタンを教室へ運搬</span><br>
+                        ・完成した「ウエイト・紐付きランタン」をボランティアで各教室(2F・3F等)へ運搬。ウエイトを床に置き、本体を天井に浮かせて安全に保管。<br>
+                        ・協賛・一般用ランタンは昇降口に一時保管
+                    </div>
+                    <div class="bg-gray-50 p-1.5 rounded border border-gray-200 flex flex-col justify-center">
+                        <div>・受付準備（テント・机・椅子）</div>
+                        <div>・来賓用椅子準備(校庭&体育館)</div>  
+                        <div>・キッチンカー・有志の出店の案内</div> 
+                        <div>・音響/照明/電源準備</div>
+                        <div>・ゴミ箱設置（場所要確認）</div> 
+                        <div><strong class="text-red-700 font-extrabold">熱中症対策どうするか？救護テント（OS-1や氷の準備）とか看護師資格を持つPTAの方配置？</strong></div> 
+                    </div>
+                </div>
+            </div>
+
+            <!-- FEASE 4 -->
+            <div class="grid grid-cols-12 gap-2 border-b border-gray-200 pb-2">
+                <div class="col-span-2 flex flex-col justify-center items-center bg-gray-100 rounded p-1 text-center">
+                    <span class="font-bold text-gray-700">フェーズ4</span>
+                    <span class="text-[9px] text-gray-500">当日午後・本番</span>
+                    <span class="text-[9px] text-blue-600 font-semibold">(8/29 15:30〜20:00)</span>
+                </div>
+                <!-- 学校 -->
+                <div class="col-span-3 bg-gray-50 p-1.5 rounded border border-gray-200 flex flex-col justify-center space-y-1">
+                    <div>・校内の立ち入り制限管理（校舎裏口の出入等見守り、各教室の開閉錠）<br><strong class="text-red-700 font-extrabold">※東門閉鎖</strong></div>
+                    <div class="font-bold text-red-700">・安全指導と雨天時等の開催判断連携</div>
+                </div>
+                <!-- 生徒 -->
+                <div class="col-span-3 item-card tag-lantern tag-paperweight bg-gradient-to-b from-blue-50/70 to-amber-50/70 p-1.5 rounded border border-blue-200 space-y-1">
+                    <div class="font-bold text-blue-700">🎈16:00 各教室で自分のランタンを回収<br><strong class="text-red-700 font-extrabold">クラス・組・出席番号を記入した当日用引換券を必ず持ってくるように</strong></div>
+                    <div class="text-[9.5px] font-bold text-amber-700">⚓「ペーパーウエイト（手持ち部分）」を握る</div>
+                    <div class="text-[8.5px] text-gray-600">※重り（ペーパーウエイト）部分をしっかりと手に持ち、紐が絡まないよう胸の前で短く抱えて体育館へ移動。（まだ紐を伸ばさないように注意）</div>
+                    <div>・17:00 体育館アトラクション鑑賞 ➔ 17:40 校庭移動</div>
+                    <div class="font-bold text-red-600 text-center bg-red-50 py-0.5 rounded text-[9.5px]">★ 19:00 ペーパーウエイトを手に持ちリリース！</div>
+                </div>
+                <!-- 実行委員会 -->
+                <div class="col-span-4 space-y-1">
+                    <div class="item-card tag-lantern tag-paperweight bg-gradient-to-r from-blue-50/70 to-amber-50/70 p-1.5 rounded border border-blue-200">
+                        <span class="font-bold text-blue-700">🎈ランタン＆⚓ペーパーウエイト(結束済み)を生徒に渡す</span><br>
+                        ・各クラスに交換受付スタッフを配置<br>
+                        ・クラス・組・出席番号が記入された引換券を確認し、ランタンと交換する<br>
+                        ・受け渡し間違い・イタズラ注意（生徒が勝手に持っていかないように）
+                    </div>
+                    <div class="item-card tag-lantern tag-bottle-weight bg-gradient-to-r from-blue-50/70 to-green-50/70 p-1.5 rounded border border-green-200">
+                        <span class="font-bold text-green-700">展示 ➔ 🍾協賛ランタンをペットボトル重りで固定</span><br>
+                        ・16:00 一般受付、協賛用ランタン（お名前入）を会場入口などの<strong class="text-green-700">「ペットボトル重り」に結びつけて校庭に固定・展示</strong>。
+                    </div>
+                    <div class="bg-gray-50 p-1.5 rounded border border-gray-200 flex flex-col justify-center">
+                        <div>・来場者駐輪場案内（西門から）</div>
+                        <div>・来場者受付（在校生・卒業生・一般の仕分け）&当日プログラム配布</div>
+                        <div>・来賓受付ご案内&当日プログラム配布</div> 
+                        <div>・ランタン販売（一般希望者）</div>
+                        <div>・タオル配布（在校生・来賓のみ）</div>
+                        <div>・タオル販売（卒業生・一般）</div> 
+                        
+                    </div>
+                    <div class="item-card tag-lantern tag-paperweight bg-gradient-to-r from-blue-50/70 to-amber-50/70 p-1.5 rounded border border-amber-300">
+                        <span class="font-bold text-red-700">★19:00 打上げ安全管理と引戻し回収</span><br>
+                        ・生徒や参加者がペーパーウエイトを誤って手放さないよう見守り。<br>
+                        ・打上げ終了後、全員で糸を巻き戻してランタンを安全に回収。<br>
+                        ・ゴミ回収
+                    </div>
+                </div>
+            </div>
+
+            <!-- FEASE 5 -->
+            <div class="grid grid-cols-12 gap-2">
+                <div class="col-span-2 flex flex-col justify-center items-center bg-gray-100 rounded p-1 text-center">
+                    <span class="font-bold text-gray-700">フェーズ5</span>
+                    <span class="text-[9px] text-gray-500">翌日片付け</span>
+                    <span class="text-[9px] text-blue-600 font-semibold">(8/30 8:00〜)</span>
+                </div>
+                <!-- 学校 -->
+                <div class="col-span-3 bg-gray-50 p-1.5 rounded border border-gray-200 flex flex-col justify-center text-center">
+                    <div>・施設返却の立ち会い確認（立ち会い不要？）</div>
+                </div>
+                <!-- 生徒 -->
+                <div class="col-span-3 bg-gray-50 p-1.5 rounded border border-gray-200 flex flex-col justify-center text-center text-gray-500 italic">
+                    <div>（登校なし）</div>
+                    <div>【部活動は可】</div>
+                </div>
+                <!-- 実行委員会 -->
+                <div class="col-span-4 space-y-1">
+                    <div class="item-card tag-bottle-weight bg-green-50/70 p-1.5 rounded border border-green-200">
+                        <span class="font-bold text-green-700">🍾協賛固定用「ペットボトル重り」の水抜き・撤収</span><br>
+                        ・協賛展示に使用した2Lペットボトルを回収。<br>
+                        ・水を抜いて分別し、資源ゴミとして適切に廃棄。
+                    </div>
+                    <div class="item-card tag-cylinder bg-purple-50/70 p-1.5 rounded border border-purple-200">
+                        <span class="font-bold text-purple-700">🧪ボンベレンタル機材回収・梱包</span><br>
+                        ・使用済ヘリウムガスボンベ・調整器などを元の通り梱包し、返却運搬の準備。
+                    </div>
+                    <div class="bg-gray-50 p-1.5 rounded border border-gray-200 text-gray-600">
+                        ・8:00〜 校庭、体育館の最終清掃、ゴミ持ち帰り、解散
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- グリッドフロー終了 -->
+
+        <!-- 下部フッター注記 -->
+        <div class="mt-3 pt-1.5 border-t border-gray-300 grid grid-cols-12 text-[9px] text-gray-600">
+            <div class="col-span-6">
+                <strong>雨天時・荒天時の代替計画：</strong><br>
+                ・17:00以降の急な降雨 ➔ 体育館内でのリリースに変更（放灯・天井引っかかりを避けるため、手元ペーパーウエイトの紐固定を徹底。放さないよう再指導）<br>
+                ・前日までの判断による順延 ➔ 翌日30日(日)へ順延
+            </div>
+            <div class="col-span-6 pl-4 border-l border-gray-300">
+                <strong>町内への周知・連絡：</strong><br>
+                ・7月末〜8月配布の告知チラシにQRコードを掲載。<br>
+                ・最新の開催判断・延期連絡等は「特設Webページ(HTML1枚)」でリアルタイム更新。
+            </div>
+        </div>
+
+    </div>
+
+    <!-- インタラクティブJavaScript -->
+    <script>
+        function filterFlow(type) {
+            // すべてのボタンから active/選択用クラスをリセット
+            const buttons = ['all', 'lantern', 'paperweight', 'bottle-weight', 'cylinder'];
+            buttons.forEach(b => {
+                const btn = document.getElementById(`btn-${b}`);
+                if (b === type) {
+                    btn.className = btn.className.replace(/bg-\w+-100|text-\w+-800/g, '').replace('bg-gray-800 text-white', '');
+                    btn.classList.add('bg-gray-900', 'text-white', 'ring-2', 'ring-offset-1', 'ring-gray-400');
+                } else {
+                    btn.classList.remove('bg-gray-900', 'text-white', 'ring-2', 'ring-offset-1', 'ring-gray-400');
+                    if (b === 'all') {
+                        btn.className = "px-3 py-1.5 text-xs font-semibold rounded bg-gray-800 text-white shadow hover:bg-gray-700 transition";
+                    } else if (b === 'lantern') {
+                        btn.className = "px-3 py-1.5 text-xs font-semibold rounded bg-blue-100 text-blue-800 border border-blue-300 hover:bg-blue-200 transition";
+                    } else if (b === 'paperweight') {
+                        btn.className = "px-3 py-1.5 text-xs font-semibold rounded bg-amber-100 text-amber-800 border border-amber-300 hover:bg-amber-200 transition";
+                    } else if (b === 'bottle-weight') {
+                        btn.className = "px-3 py-1.5 text-xs font-semibold rounded bg-green-100 text-green-800 border border-green-300 hover:bg-green-200 transition";
+                    } else if (b === 'cylinder') {
+                        btn.className = "px-3 py-1.5 text-xs font-semibold rounded bg-purple-100 text-purple-800 border border-purple-300 hover:bg-purple-200 transition";
+                    }
+                }
+            });
+
+            const cards = document.querySelectorAll('.item-card');
+            
+            if (type === 'all') {
+                cards.forEach(card => {
+                    card.classList.remove('dimmed', 'highlighted-lantern', 'highlighted-paperweight', 'highlighted-bottle-weight', 'highlighted-cylinder');
+                });
+                return;
+            }
+
+            cards.forEach(card => {
+                const isLantern = card.classList.contains('tag-lantern');
+                const isPaperweight = card.classList.contains('tag-paperweight');
+                const isBottleWeight = card.classList.contains('tag-bottle-weight');
+                const isCylinder = card.classList.contains('tag-cylinder');
+
+                // ハイライト処理のリセット
+                card.classList.remove('dimmed', 'highlighted-lantern', 'highlighted-paperweight', 'highlighted-bottle-weight', 'highlighted-cylinder');
+
+                if (type === 'lantern') {
+                    if (isLantern) {
+                        card.classList.add('highlighted-lantern');
+                    } else {
+                        card.classList.add('dimmed');
+                    }
+                } else if (type === 'paperweight') {
+                    if (isPaperweight) {
+                        card.classList.add('highlighted-paperweight');
+                    } else {
+                        card.classList.add('dimmed');
+                    }
+                } else if (type === 'bottle-weight') {
+                    if (isBottleWeight) {
+                        card.classList.add('highlighted-bottle-weight');
+                    } else {
+                        card.classList.add('dimmed');
+                    }
+                } else if (type === 'cylinder') {
+                    if (isCylinder) {
+                        card.classList.add('highlighted-cylinder');
+                    } else {
+                        card.classList.add('dimmed');
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
